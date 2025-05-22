@@ -7,7 +7,7 @@ import colors from '../theme/colors';
 import { formatDisplayDate, formatDisplayTime } from '../utils/dateUtils';
 
 /**
- * Dashboard component showing summary of meals and moods
+ * Dashboard component showing summary of meals and moods with futuristic design
  */
 const Dashboard = () => {
   const { meals, moods } = useMoodMeal();
@@ -32,7 +32,8 @@ const Dashboard = () => {
     padding: '0 24px',
     width: '100%',
     boxSizing: 'border-box',
-    paddingTop: '70px',
+    paddingTop: '90px',
+    animation: 'fadeIn 0.6s ease-out',
   };
 
   const headerStyle = {
@@ -43,90 +44,153 @@ const Dashboard = () => {
   };
 
   const titleStyle = {
-    fontSize: '24px',
-    fontWeight: '600',
+    fontSize: '32px',
+    fontWeight: '700',
     margin: '0',
+    background: 'linear-gradient(135deg, #FFFFFF, #A0A0A0)',
+    WebkitBackgroundClip: 'text',
+    backgroundClip: 'text',
+    color: 'transparent',
+    letterSpacing: '-0.5px',
+    textShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+    marginBottom: '8px',
+  };
+
+  const subtitleStyle = {
+    fontSize: '16px',
+    fontWeight: '400',
+    color: colors.textSecondary,
+    margin: '0',
+    marginTop: '8px',
   };
 
   const sectionStyle = {
-    marginBottom: '32px',
+    marginBottom: '36px',
   };
 
   const sectionHeaderStyle = {
-    fontSize: '18px',
-    fontWeight: '500',
+    fontSize: '20px',
+    fontWeight: '600',
     marginBottom: '16px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    letterSpacing: '-0.3px',
+    background: 'linear-gradient(135deg, #FFFFFF, #A0A0A0)',
+    WebkitBackgroundClip: 'text',
+    backgroundClip: 'text',
+    color: 'transparent',
   };
 
   const statsContainerStyle = {
-    display: 'flex',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '16px',
     marginBottom: '24px',
   };
 
   const statCardStyle = {
-    flex: 1,
-    padding: '16px',
-    borderRadius: '8px',
-    backgroundColor: colors.cardBackground,
-    border: `1px solid ${colors.border}`,
+    padding: '24px 20px',
+    borderRadius: '16px',
+    background: 'rgba(42, 42, 45, 0.5)',
+    backdropFilter: 'blur(10px)',
+    WebkitBackdropFilter: 'blur(10px)',
+    border: `1px solid ${colors.glassBorder}`,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
+    transition: 'all 0.3s ease',
+    position: 'relative',
+    overflow: 'hidden',
   };
 
   const statValueStyle = {
-    fontSize: '24px',
-    fontWeight: '600',
-    margin: '8px 0',
-    color: colors.primary,
+    fontSize: '32px',
+    fontWeight: '700',
+    margin: '10px 0',
+    background: colors.primaryGradient,
+    WebkitBackgroundClip: 'text',
+    backgroundClip: 'text',
+    color: 'transparent',
+    textShadow: `0 0 10px ${colors.primaryGlow}`,
   };
 
   const statLabelStyle = {
     fontSize: '14px',
     color: colors.textSecondary,
+    fontWeight: '500',
+    letterSpacing: '0.5px',
+    textTransform: 'uppercase',
   };
 
   const emptyStateStyle = {
     textAlign: 'center',
-    padding: '24px',
+    padding: '32px',
     color: colors.textSecondary,
+    background: 'rgba(255, 255, 255, 0.02)',
+    borderRadius: '12px',
+    backdropFilter: 'blur(5px)',
+    WebkitBackdropFilter: 'blur(5px)',
   };
 
   const entryItemStyle = {
-    padding: '12px',
-    borderBottom: `1px solid ${colors.border}`,
+    padding: '16px',
+    borderBottom: `1px solid ${colors.glassBorder}`,
+    transition: 'all 0.3s ease',
+    position: 'relative',
+    overflow: 'hidden',
+    ':hover': {
+      background: 'rgba(255, 255, 255, 0.03)',
+    },
   };
 
   const entryHeaderStyle = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '4px',
+    marginBottom: '8px',
   };
 
   const entryTitleStyle = {
-    fontSize: '16px',
-    fontWeight: '500',
+    fontSize: '18px',
+    fontWeight: '600',
+    color: colors.textPrimary,
+    display: 'flex',
+    alignItems: 'center',
   };
 
   const entryTimeStyle = {
     fontSize: '14px',
-    color: colors.textSecondary,
+    color: colors.textAccent,
+    fontWeight: '500',
   };
 
   const entryDetailStyle = {
-    fontSize: '14px',
+    fontSize: '15px',
     color: colors.textSecondary,
-    marginTop: '4px',
+    marginTop: '6px',
+    lineHeight: '1.4',
   };
 
   const linkStyle = {
     textDecoration: 'none',
-    color: colors.primary,
+    color: colors.textAccent,
+    fontWeight: '500',
+    transition: 'all 0.2s ease',
+    position: 'relative',
+    padding: '0 2px',
+    ':hover': {
+      color: `${colors.primary}`,
+      textShadow: `0 0 8px ${colors.primaryGlow}`,
+    },
+  };
+
+  const actionButtonsStyle = {
+    display: 'flex',
+    gap: '12px',
+    marginTop: '8px',
   };
 
   const getMoodColor = (level) => {
@@ -140,6 +204,17 @@ const Dashboard = () => {
     return moodColors[level] || colors.moodNeutral;
   };
 
+  const getMoodGradient = (level) => {
+    const moodGradients = {
+      1: colors.moodTerribleGradient,
+      2: colors.moodBadGradient,
+      3: colors.moodNeutralGradient,
+      4: colors.moodGoodGradient,
+      5: colors.moodExcellentGradient
+    };
+    return moodGradients[level] || colors.moodNeutralGradient;
+  };
+
   const getMoodEmoji = (level) => {
     const moodEmojis = {
       1: '😣',
@@ -151,21 +226,90 @@ const Dashboard = () => {
     return moodEmojis[level] || '😐';
   };
 
+  const renderStatCards = () => (
+    <div style={statsContainerStyle}>
+      <div style={statCardStyle} className="glass-container">
+        <div style={statLabelStyle}>Total Meals</div>
+        <div style={statValueStyle}>{meals.length}</div>
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '3px',
+          background: colors.mealBreakfastGradient,
+        }} />
+      </div>
+      <div style={statCardStyle} className="glass-container">
+        <div style={statLabelStyle}>Total Moods</div>
+        <div style={statValueStyle}>{moods.length}</div>
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '3px',
+          background: colors.moodNeutralGradient,
+        }} />
+      </div>
+      <div style={statCardStyle} className="glass-container">
+        <div style={statLabelStyle}>Average Mood</div>
+        <div style={{...statValueStyle, display: 'flex', alignItems: 'center', gap: '8px'}}>
+          {typeof averageMood === 'string' ? (
+            averageMood
+          ) : (
+            <>
+              <span>{averageMood}</span>
+              <span style={{
+                width: '30px',
+                height: '30px',
+                borderRadius: '50%',
+                background: getMoodGradient(Math.round(averageMood)),
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: `0 0 15px ${getMoodColor(Math.round(averageMood))}80`,
+              }}>
+                {getMoodEmoji(Math.round(averageMood))}
+              </span>
+            </>
+          )}
+        </div>
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '3px',
+          background: typeof averageMood === 'string' 
+            ? colors.moodNeutralGradient
+            : getMoodGradient(Math.round(averageMood)),
+        }} />
+      </div>
+    </div>
+  );
+
   return (
     <div style={containerStyle}>
       <div style={headerStyle}>
-        <h1 style={titleStyle}>Dashboard</h1>
-        <div style={{ display: 'flex', gap: '16px' }}>
+        <div>
+          <h1 style={titleStyle}>Dashboard</h1>
+          <p style={subtitleStyle}>Track your mood and meal patterns</p>
+        </div>
+        <div style={actionButtonsStyle}>
           <Button 
-            variant="primary"
+            variant="glass"
             size="small"
+            icon="🍲"
             onClick={() => {}}
+            animation="pulse"
           >
             Log Meal
           </Button>
           <Button 
-            variant="secondary"
+            variant="glass"
             size="small"
+            icon="😊"
             onClick={() => {}}
           >
             Log Mood
@@ -175,22 +319,7 @@ const Dashboard = () => {
 
       {/* Overview Stats */}
       <div style={sectionStyle}>
-        <div style={statsContainerStyle}>
-          <div style={statCardStyle}>
-            <div style={statLabelStyle}>Total Meals</div>
-            <div style={statValueStyle}>{meals.length}</div>
-          </div>
-          <div style={statCardStyle}>
-            <div style={statLabelStyle}>Total Moods</div>
-            <div style={statValueStyle}>{moods.length}</div>
-          </div>
-          <div style={statCardStyle}>
-            <div style={statLabelStyle}>Average Mood</div>
-            <div style={statValueStyle}>
-              {typeof averageMood === 'string' ? averageMood : `${averageMood} ${getMoodEmoji(Math.round(averageMood))}`}
-            </div>
-          </div>
-        </div>
+        {renderStatCards()}
       </div>
 
       {/* Today's Summary */}
@@ -198,14 +327,33 @@ const Dashboard = () => {
         <div style={sectionHeaderStyle}>
           <h2 style={{ margin: 0 }}>Today's Summary</h2>
         </div>
-        <Card>
-          <h3>Meals</h3>
+        <Card variant="glass">
+          <h3 style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            marginBottom: '16px',
+            background: colors.mealBreakfastGradient,
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            color: 'transparent',
+          }}>Meals</h3>
+          
           {todaysMeals.length > 0 ? (
             <div>
               {todaysMeals.map(meal => (
                 <div key={meal.id} style={entryItemStyle}>
                   <div style={entryHeaderStyle}>
-                    <div style={entryTitleStyle}>{meal.name || meal.type}</div>
+                    <div style={entryTitleStyle}>
+                      <span style={{
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        backgroundColor: getMealTypeColor(meal.type),
+                        marginRight: '10px',
+                        boxShadow: `0 0 8px ${getMealTypeColor(meal.type)}`,
+                      }} />
+                      {meal.name || meal.type}
+                    </div>
                     <div style={entryTimeStyle}>{formatDisplayTime(meal.date)}</div>
                   </div>
                   <div style={entryDetailStyle}>
@@ -220,7 +368,17 @@ const Dashboard = () => {
             </div>
           )}
 
-          <h3>Moods</h3>
+          <h3 style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            marginTop: '24px',
+            marginBottom: '16px',
+            background: colors.moodNeutralGradient,
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            color: 'transparent',
+          }}>Moods</h3>
+          
           {todaysMoods.length > 0 ? (
             <div>
               {todaysMoods.map(mood => (
@@ -228,14 +386,16 @@ const Dashboard = () => {
                   <div style={entryHeaderStyle}>
                     <div style={entryTitleStyle}>
                       <span style={{
-                        display: 'inline-block',
-                        width: '20px',
-                        height: '20px',
+                        display: 'inline-flex',
+                        width: '28px',
+                        height: '28px',
                         borderRadius: '50%',
-                        backgroundColor: getMoodColor(mood.level),
-                        marginRight: '8px',
-                        textAlign: 'center',
-                        lineHeight: '20px'
+                        background: getMoodGradient(mood.level),
+                        marginRight: '10px',
+                        boxShadow: `0 0 12px ${getMoodColor(mood.level)}80`,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: '16px',
                       }}>
                         {getMoodEmoji(mood.level)}
                       </span>
@@ -263,16 +423,43 @@ const Dashboard = () => {
       <div style={sectionStyle}>
         <div style={sectionHeaderStyle}>
           <h2 style={{ margin: 0 }}>Recent Activity</h2>
-          <Link to="/insights" style={linkStyle}>View all</Link>
+          <Link to="/insights" style={{
+            ...linkStyle,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+          }}>
+            View all
+            <span style={{ fontSize: '18px' }}>→</span>
+          </Link>
         </div>
-        <Card>
-          <h3>Recent Meals</h3>
+        <Card variant="glass">
+          <h3 style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            marginBottom: '16px',
+            background: colors.mealBreakfastGradient,
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            color: 'transparent',
+          }}>Recent Meals</h3>
+          
           {latestMeals.length > 0 ? (
             <div>
               {latestMeals.map(meal => (
                 <div key={meal.id} style={entryItemStyle}>
                   <div style={entryHeaderStyle}>
-                    <div style={entryTitleStyle}>{meal.name || meal.type}</div>
+                    <div style={entryTitleStyle}>
+                      <span style={{
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        backgroundColor: getMealTypeColor(meal.type),
+                        marginRight: '10px',
+                        boxShadow: `0 0 8px ${getMealTypeColor(meal.type)}`,
+                      }} />
+                      {meal.name || meal.type}
+                    </div>
                     <div style={entryTimeStyle}>{formatDisplayDate(meal.date)}</div>
                   </div>
                   <div style={entryDetailStyle}>
@@ -287,7 +474,17 @@ const Dashboard = () => {
             </div>
           )}
 
-          <h3>Recent Moods</h3>
+          <h3 style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            marginTop: '24px',
+            marginBottom: '16px',
+            background: colors.moodNeutralGradient,
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            color: 'transparent',
+          }}>Recent Moods</h3>
+          
           {latestMoods.length > 0 ? (
             <div>
               {latestMoods.map(mood => (
@@ -295,14 +492,16 @@ const Dashboard = () => {
                   <div style={entryHeaderStyle}>
                     <div style={entryTitleStyle}>
                       <span style={{
-                        display: 'inline-block',
-                        width: '20px',
-                        height: '20px',
+                        display: 'inline-flex',
+                        width: '28px',
+                        height: '28px',
                         borderRadius: '50%',
-                        backgroundColor: getMoodColor(mood.level),
-                        marginRight: '8px',
-                        textAlign: 'center',
-                        lineHeight: '20px'
+                        background: getMoodGradient(mood.level),
+                        marginRight: '10px',
+                        boxShadow: `0 0 12px ${getMoodColor(mood.level)}80`,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: '16px',
                       }}>
                         {getMoodEmoji(mood.level)}
                       </span>
@@ -327,6 +526,17 @@ const Dashboard = () => {
       </div>
     </div>
   );
+};
+
+// Helper function to get color based on meal type
+const getMealTypeColor = (type) => {
+  const typeColors = {
+    breakfast: colors.mealBreakfast,
+    lunch: colors.mealLunch,
+    dinner: colors.mealDinner,
+    snack: colors.mealSnack
+  };
+  return typeColors[type] || colors.mealSnack;
 };
 
 export default Dashboard;
