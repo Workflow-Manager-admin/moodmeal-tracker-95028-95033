@@ -7,7 +7,7 @@ import colors from '../theme/colors';
 import { formatDisplayDate, formatDisplayTime } from '../utils/dateUtils';
 
 /**
- * MealLogger component for logging meals
+ * MealLogger component for logging meals with futuristic UI
  */
 const MealLogger = () => {
   const { meals, addMeal, updateMeal, deleteMeal } = useMoodMeal();
@@ -32,49 +32,88 @@ const MealLogger = () => {
     padding: '0 24px',
     width: '100%',
     boxSizing: 'border-box',
-    paddingTop: '70px',
+    paddingTop: '90px',
+    animation: 'fadeIn 0.6s ease-out',
   };
 
   const headerStyle = {
-    marginBottom: '24px',
+    marginBottom: '32px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
   };
 
   const titleStyle = {
-    fontSize: '24px',
-    fontWeight: '600',
+    fontSize: '32px',
+    fontWeight: '700',
     margin: '0',
+    background: 'linear-gradient(135deg, #FFFFFF, #A0A0A0)',
+    WebkitBackgroundClip: 'text',
+    backgroundClip: 'text',
+    color: 'transparent',
+    letterSpacing: '-0.5px',
+    textShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+  };
+
+  const formContainerStyle = {
+    marginBottom: '32px',
+    animation: 'fadeIn 0.4s ease-out',
   };
 
   const formStyle = {
-    marginBottom: '24px',
+    padding: '24px',
+    borderRadius: '16px',
+    background: 'rgba(42, 42, 45, 0.6)',
+    backdropFilter: 'blur(10px)',
+    WebkitBackdropFilter: 'blur(10px)',
+    border: `1px solid ${colors.glassBorder}`,
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
   };
 
   const formRowStyle = {
-    marginBottom: '16px',
+    marginBottom: '24px',
   };
 
   const labelStyle = {
     display: 'block',
-    marginBottom: '8px',
-    fontWeight: '500',
+    marginBottom: '10px',
+    fontWeight: '600',
+    fontSize: '16px',
+    color: colors.textPrimary,
+    letterSpacing: '0.3px',
+  };
+
+  const inputWrapperStyle = {
+    position: 'relative',
+    width: '100%',
   };
 
   const inputStyle = {
     width: '100%',
-    padding: '10px 12px',
-    borderRadius: '4px',
-    border: `1px solid ${colors.border}`,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    padding: '14px 16px',
+    borderRadius: '12px',
+    border: `1px solid ${colors.glassBorder}`,
+    backgroundColor: 'rgba(255, 255, 255, 0.03)',
     color: colors.textPrimary,
     fontSize: '16px',
+    transition: 'all 0.3s ease',
+    boxSizing: 'border-box',
+    backdropFilter: 'blur(5px)',
+    WebkitBackdropFilter: 'blur(5px)',
+    boxShadow: 'inset 0 2px 10px rgba(0, 0, 0, 0.1)',
+    fontFamily: "'Poppins', sans-serif",
+  };
+
+  const inputFocusStyle = {
+    borderColor: colors.primary,
+    boxShadow: `0 0 0 2px ${colors.primaryGlow}, inset 0 2px 10px rgba(0, 0, 0, 0.1)`,
+    outline: 'none',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
   };
 
   const textareaStyle = {
     ...inputStyle,
-    minHeight: '100px',
+    minHeight: '120px',
     resize: 'vertical',
   };
 
@@ -83,89 +122,200 @@ const MealLogger = () => {
     appearance: 'none',
     backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'white\'%3e%3cpath d=\'M7 10l5 5 5-5z\'/%3e%3c/svg%3e")',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right 10px center',
+    backgroundPosition: 'right 12px center',
     backgroundSize: '20px',
+    paddingRight: '40px',
   };
 
   const satisfactionContainerStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '16px',
+    marginBottom: '24px',
   };
 
   const satisfactionLabelStyle = {
-    marginRight: '16px',
-    fontWeight: '500',
+    marginBottom: '12px',
+    fontWeight: '600',
+    display: 'block',
+    fontSize: '16px',
+    color: colors.textPrimary,
+    letterSpacing: '0.3px',
   };
 
-  const satisfactionButtonStyle = (isSelected) => ({
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    margin: '0 8px',
-    backgroundColor: isSelected ? colors.primary : 'transparent',
-    color: isSelected ? colors.textPrimary : colors.textSecondary,
-    border: `1px solid ${isSelected ? colors.primary : colors.border}`,
-    cursor: 'pointer',
-    fontSize: '16px',
+  const satisfactionButtonsStyle = {
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-  });
+    gap: '12px',
+    justifyContent: 'center',
+    padding: '12px',
+    borderRadius: '12px',
+    background: 'rgba(255, 255, 255, 0.03)',
+    backdropFilter: 'blur(5px)',
+    WebkitBackdropFilter: 'blur(5px)',
+  };
+
+  const satisfactionButtonStyle = (level, isSelected) => {
+    // Get the appropriate color gradient based on satisfaction level
+    let gradient;
+    switch(level) {
+      case 1: gradient = colors.moodTerribleGradient; break;
+      case 2: gradient = colors.moodBadGradient; break;
+      case 3: gradient = colors.moodNeutralGradient; break;
+      case 4: gradient = colors.moodGoodGradient; break;
+      case 5: gradient = colors.moodExcellentGradient; break;
+      default: gradient = colors.moodNeutralGradient;
+    }
+    
+    return {
+      width: '50px',
+      height: '50px',
+      borderRadius: '50%',
+      background: isSelected ? gradient : 'rgba(255, 255, 255, 0.05)',
+      color: isSelected ? colors.textPrimary : colors.textSecondary,
+      border: 'none',
+      cursor: 'pointer',
+      fontSize: '18px',
+      fontWeight: '700',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      transition: 'all 0.3s ease',
+      boxShadow: isSelected ? '0 0 15px rgba(255, 255, 255, 0.2)' : 'none',
+      transform: isSelected ? 'scale(1.1)' : 'scale(1)',
+    };
+  };
 
   const buttonContainerStyle = {
     display: 'flex',
-    gap: '12px',
+    gap: '16px',
     justifyContent: 'flex-end',
+    marginTop: '32px',
   };
 
   const mealItemStyle = {
-    marginBottom: '16px',
+    marginBottom: '20px',
+    transition: 'all 0.3s ease',
+  };
+
+  const mealCardInnerStyle = {
+    position: 'relative',
+    overflow: 'hidden',
   };
 
   const mealHeaderStyle = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '8px',
+    marginBottom: '12px',
   };
 
   const mealTitleStyle = {
-    fontSize: '18px',
-    fontWeight: '500',
+    fontSize: '22px',
+    fontWeight: '600',
+    background: colors.primaryGradient,
+    WebkitBackgroundClip: 'text',
+    backgroundClip: 'text',
+    color: 'transparent',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
   };
 
   const mealTimeStyle = {
     fontSize: '14px',
-    color: colors.textSecondary,
+    color: colors.textAccent,
+    fontWeight: '500',
+    letterSpacing: '0.3px',
   };
 
   const mealDetailStyle = {
-    fontSize: '14px',
-    color: colors.textSecondary,
-    marginBottom: '8px',
+    fontSize: '15px',
+    color: colors.textPrimary,
+    marginBottom: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+  };
+
+  const mealInfoIconStyle = {
+    fontSize: '16px',
+    color: colors.textAccent,
+    marginRight: '4px',
   };
 
   const mealFoodsStyle = {
     fontSize: '16px',
-    marginBottom: '8px',
+    marginBottom: '12px',
+    color: colors.textSecondary,
+    lineHeight: '1.5',
+  };
+
+  const tagContainerStyle = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '8px',
+    marginTop: '16px',
   };
 
   const tagStyle = {
-    display: 'inline-block',
-    backgroundColor: 'rgba(232, 122, 65, 0.2)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    background: 'rgba(232, 122, 65, 0.15)',
     color: colors.primary,
-    padding: '4px 8px',
-    borderRadius: '16px',
-    marginRight: '8px',
-    marginBottom: '8px',
-    fontSize: '12px',
+    padding: '6px 14px',
+    borderRadius: '20px',
+    fontSize: '14px',
+    fontWeight: '500',
+    backdropFilter: 'blur(4px)',
+    WebkitBackdropFilter: 'blur(4px)',
+    border: `1px solid rgba(232, 122, 65, 0.2)`,
+    boxShadow: '0 2px 10px rgba(232, 122, 65, 0.1)',
   };
 
   const mealActionsStyle = {
     display: 'flex',
     justifyContent: 'flex-end',
-    marginTop: '8px',
+    gap: '12px',
+    marginTop: '20px',
+  };
+
+  const mealTypeIndicatorStyle = (type) => {
+    const mealColor = getMealTypeColor(type);
+    const mealGradient = getMealTypeGradient(type);
+    
+    return {
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      right: '0',
+      height: '4px',
+      background: mealGradient,
+      boxShadow: `0 0 10px ${mealColor}80`,
+    };
+  };
+
+  const satisfactionIndicatorStyle = (level) => {
+    let gradient;
+    switch(level) {
+      case 1: gradient = colors.moodTerribleGradient; break;
+      case 2: gradient = colors.moodBadGradient; break;
+      case 3: gradient = colors.moodNeutralGradient; break;
+      case 4: gradient = colors.moodGoodGradient; break;
+      case 5: gradient = colors.moodExcellentGradient; break;
+      default: gradient = colors.moodNeutralGradient;
+    }
+    
+    return {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '30px',
+      height: '30px',
+      borderRadius: '50%',
+      background: gradient,
+      marginLeft: '8px',
+      fontSize: '14px',
+      fontWeight: '700',
+      boxShadow: '0 0 10px rgba(255, 255, 255, 0.2)',
+    };
   };
 
   const getMealTypeColor = (type) => {
@@ -176,6 +326,26 @@ const MealLogger = () => {
       snack: colors.mealSnack
     };
     return typeColors[type] || colors.mealSnack;
+  };
+
+  const getMealTypeGradient = (type) => {
+    const typeGradients = {
+      breakfast: colors.mealBreakfastGradient,
+      lunch: colors.mealLunchGradient,
+      dinner: colors.mealDinnerGradient,
+      snack: colors.mealSnackGradient
+    };
+    return typeGradients[type] || colors.mealSnackGradient;
+  };
+
+  const getMealTypeIcon = (type) => {
+    const typeIcons = {
+      breakfast: '🍳',
+      lunch: '🥗',
+      dinner: '🍽️',
+      snack: '🍎'
+    };
+    return typeIcons[type] || '🍎';
   };
 
   const resetForm = () => {
@@ -258,14 +428,48 @@ const MealLogger = () => {
     }
   };
 
+  // Custom Input component with focus state
+  const FuturisticInput = ({ id, label, value, onChange, placeholder, type = 'text', as = 'input' }) => {
+    const [isFocused, setIsFocused] = React.useState(false);
+    
+    const InputComponent = as === 'textarea' ? 'textarea' : 'input';
+    const componentStyle = as === 'textarea' ? textareaStyle : inputStyle;
+    
+    return (
+      <div style={formRowStyle}>
+        <label style={labelStyle} htmlFor={id}>{label}</label>
+        <div style={inputWrapperStyle}>
+          <InputComponent
+            id={id}
+            type={type}
+            style={{
+              ...componentStyle,
+              ...(isFocused ? inputFocusStyle : {})
+            }}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+          />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div style={containerStyle}>
       <div style={headerStyle}>
-        <h1 style={titleStyle}>Meal Tracker</h1>
+        <div>
+          <h1 style={titleStyle}>Meal Tracker</h1>
+        </div>
         {!showForm && (
           <Button 
-            variant="primary"
+            variant="glass"
+            size="medium"
             onClick={handleShowForm}
+            icon="🍲"
+            animation="pulse"
           >
             Add Meal
           </Button>
@@ -273,83 +477,74 @@ const MealLogger = () => {
       </div>
 
       {showForm && (
-        <Card>
+        <div style={formContainerStyle} className="fade-in">
           <form onSubmit={handleSubmit} style={formStyle}>
-            <div style={formRowStyle}>
-              <label style={labelStyle} htmlFor="mealName">Meal Name</label>
-              <input
-                type="text"
-                id="mealName"
-                style={inputStyle}
-                value={mealName}
-                onChange={(e) => setMealName(e.target.value)}
-                placeholder="e.g., Breakfast Smoothie"
-              />
-            </div>
+            <FuturisticInput
+              id="mealName"
+              label="Meal Name"
+              value={mealName}
+              onChange={(e) => setMealName(e.target.value)}
+              placeholder="e.g., Breakfast Smoothie"
+            />
             
             <div style={formRowStyle}>
               <label style={labelStyle} htmlFor="mealType">Meal Type</label>
-              <select
-                id="mealType"
-                style={selectStyle}
-                value={mealType}
-                onChange={(e) => setMealType(e.target.value)}
-              >
-                <option value="breakfast">Breakfast</option>
-                <option value="lunch">Lunch</option>
-                <option value="dinner">Dinner</option>
-                <option value="snack">Snack</option>
-              </select>
+              <div style={inputWrapperStyle}>
+                <select
+                  id="mealType"
+                  style={selectStyle}
+                  value={mealType}
+                  onChange={(e) => setMealType(e.target.value)}
+                >
+                  <option value="breakfast">Breakfast</option>
+                  <option value="lunch">Lunch</option>
+                  <option value="dinner">Dinner</option>
+                  <option value="snack">Snack</option>
+                </select>
+              </div>
             </div>
             
-            <div style={formRowStyle}>
-              <label style={labelStyle} htmlFor="mealFoods">Foods (comma separated)</label>
-              <input
-                type="text"
-                id="mealFoods"
-                style={inputStyle}
-                value={mealFoods}
-                onChange={(e) => setMealFoods(e.target.value)}
-                placeholder="e.g., Banana, Yogurt, Honey"
-              />
-            </div>
+            <FuturisticInput
+              id="mealFoods"
+              label="Foods (comma separated)"
+              value={mealFoods}
+              onChange={(e) => setMealFoods(e.target.value)}
+              placeholder="e.g., Banana, Yogurt, Honey"
+            />
             
             <div style={satisfactionContainerStyle}>
-              <div style={satisfactionLabelStyle}>Satisfaction:</div>
-              {[1, 2, 3, 4, 5].map((level) => (
-                <button
-                  key={level}
-                  type="button"
-                  style={satisfactionButtonStyle(level === mealSatisfaction)}
-                  onClick={() => setMealSatisfaction(level)}
-                >
-                  {level}
-                </button>
-              ))}
+              <div style={satisfactionLabelStyle}>Satisfaction Level</div>
+              <div style={satisfactionButtonsStyle} className="glass-card">
+                {[1, 2, 3, 4, 5].map((level) => (
+                  <button
+                    key={level}
+                    type="button"
+                    style={satisfactionButtonStyle(level, level === mealSatisfaction)}
+                    onClick={() => setMealSatisfaction(level)}
+                    className={level === mealSatisfaction ? "pulse" : ""}
+                  >
+                    {level}
+                  </button>
+                ))}
+              </div>
             </div>
             
-            <div style={formRowStyle}>
-              <label style={labelStyle} htmlFor="mealNotes">Notes</label>
-              <textarea
-                id="mealNotes"
-                style={textareaStyle}
-                value={mealNotes}
-                onChange={(e) => setMealNotes(e.target.value)}
-                placeholder="Add any notes about this meal..."
-              />
-            </div>
+            <FuturisticInput
+              id="mealNotes"
+              label="Notes"
+              value={mealNotes}
+              onChange={(e) => setMealNotes(e.target.value)}
+              placeholder="Add any notes about this meal..."
+              as="textarea"
+            />
             
-            <div style={formRowStyle}>
-              <label style={labelStyle} htmlFor="mealTags">Tags (comma separated)</label>
-              <input
-                type="text"
-                id="mealTags"
-                style={inputStyle}
-                value={mealTags}
-                onChange={(e) => setMealTags(e.target.value)}
-                placeholder="e.g., healthy, homemade, quick"
-              />
-            </div>
+            <FuturisticInput
+              id="mealTags"
+              label="Tags (comma separated)"
+              value={mealTags}
+              onChange={(e) => setMealTags(e.target.value)}
+              placeholder="e.g., healthy, homemade, quick"
+            />
             
             <div style={buttonContainerStyle}>
               <Button
@@ -361,91 +556,155 @@ const MealLogger = () => {
                 Cancel
               </Button>
               <Button
-                variant="primary"
+                variant="accent"
                 size="medium"
                 type="submit"
+                animation="glow"
               >
                 {editingMeal ? 'Update Meal' : 'Add Meal'}
               </Button>
             </div>
           </form>
-        </Card>
+        </div>
       )}
 
-      <h2>Your Meal Entries</h2>
+      <h2 style={{
+        fontSize: '24px',
+        fontWeight: '600',
+        marginBottom: '20px',
+        background: 'linear-gradient(135deg, #FFFFFF, #A0A0A0)',
+        WebkitBackgroundClip: 'text',
+        backgroundClip: 'text',
+        color: 'transparent',
+      }}>Your Meal Entries</h2>
       
       {sortedMeals.length === 0 ? (
-        <Card>
-          <div style={{ textAlign: 'center', padding: '20px', color: colors.textSecondary }}>
-            You haven't logged any meals yet. Click "Add Meal" to get started!
+        <Card variant="glass">
+          <div style={{ textAlign: 'center', padding: '40px 20px', color: colors.textSecondary }}>
+            <div style={{ fontSize: '36px', marginBottom: '16px' }}>🍽️</div>
+            <div style={{ fontSize: '18px', fontWeight: '500', marginBottom: '8px' }}>No meals logged yet</div>
+            <div style={{ fontSize: '16px', opacity: 0.8, marginBottom: '24px' }}>Click "Add Meal" to start tracking your nutrition</div>
+            <Button variant="primary" size="medium" onClick={handleShowForm}>Add Your First Meal</Button>
           </div>
         </Card>
       ) : (
         sortedMeals.map(meal => (
           <Card 
             key={meal.id}
-            style={{
-              borderLeft: `4px solid ${getMealTypeColor(meal.type)}`,
-              ...mealItemStyle
-            }}
+            variant="glass"
+            style={mealItemStyle}
           >
-            <div style={mealHeaderStyle}>
-              <div style={mealTitleStyle}>
-                {meal.name || `${meal.type.charAt(0).toUpperCase() + meal.type.slice(1)}`}
-              </div>
-              <div style={mealTimeStyle}>
-                {formatDisplayDate(meal.date)} at {formatDisplayTime(meal.date)}
-              </div>
-            </div>
-            
-            <div style={mealDetailStyle}>
-              <strong style={{ textTransform: 'capitalize' }}>{meal.type}</strong> • Satisfaction: {meal.satisfaction}/5
-            </div>
-            
-            {meal.foods.length > 0 && (
-              <div style={mealFoodsStyle}>
-                <strong>Foods:</strong> {meal.foods.join(', ')}
-              </div>
-            )}
-            
-            {meal.notes && (
-              <div>
-                <strong>Notes:</strong> {meal.notes}
-              </div>
-            )}
-            
-            {meal.tags.length > 0 && (
-              <div style={{ marginTop: '8px' }}>
-                {meal.tags.map((tag, index) => (
-                  <span key={index} style={tagStyle}>
-                    {tag}
+            <div style={mealCardInnerStyle}>
+              <div style={mealTypeIndicatorStyle(meal.type)} />
+              
+              <div style={mealHeaderStyle}>
+                <div style={mealTitleStyle}>
+                  <span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '50%',
+                    background: getMealTypeGradient(meal.type),
+                    boxShadow: `0 0 15px ${getMealTypeColor(meal.type)}60`,
+                  }}>
+                    {getMealTypeIcon(meal.type)}
                   </span>
-                ))}
+                  {meal.name || `${meal.type.charAt(0).toUpperCase() + meal.type.slice(1)}`}
+                </div>
+                <div style={mealTimeStyle}>
+                  {formatDisplayDate(meal.date)} at {formatDisplayTime(meal.date)}
+                </div>
               </div>
-            )}
-            
-            <div style={mealActionsStyle}>
-              <Button
-                variant="outline"
-                size="small"
-                onClick={() => handleEditMeal(meal)}
-                style={{ marginRight: '8px' }}
-              >
-                Edit
-              </Button>
-              <Button
-                variant="outline"
-                size="small"
-                onClick={() => handleDeleteMeal(meal.id)}
-              >
-                Delete
-              </Button>
+              
+              <div style={mealDetailStyle}>
+                <span style={{ 
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                  fontWeight: '600',
+                  fontSize: '13px',
+                  color: getMealTypeColor(meal.type),
+                  padding: '4px 10px',
+                  background: `rgba(${hexToRgb(getMealTypeColor(meal.type))}, 0.1)`,
+                  borderRadius: '4px',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(4px)',
+                }}>
+                  {meal.type}
+                </span>
+                <span style={{ color: colors.textSecondary }}>•</span>
+                <span>
+                  Satisfaction:
+                  <span style={satisfactionIndicatorStyle(meal.satisfaction)}>
+                    {meal.satisfaction}
+                  </span>
+                </span>
+              </div>
+              
+              {meal.foods.length > 0 && (
+                <div style={mealFoodsStyle}>
+                  <span style={mealInfoIconStyle}>🍴</span>
+                  <strong style={{ color: colors.textPrimary }}>Foods: </strong> 
+                  {meal.foods.join(', ')}
+                </div>
+              )}
+              
+              {meal.notes && (
+                <div style={mealFoodsStyle}>
+                  <span style={mealInfoIconStyle}>📝</span>
+                  <strong style={{ color: colors.textPrimary }}>Notes: </strong> 
+                  {meal.notes}
+                </div>
+              )}
+              
+              {meal.tags.length > 0 && (
+                <div style={tagContainerStyle}>
+                  {meal.tags.map((tag, index) => (
+                    <span key={index} style={tagStyle}>
+                      # {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+              
+              <div style={mealActionsStyle}>
+                <Button
+                  variant="glass"
+                  size="small"
+                  onClick={() => handleEditMeal(meal)}
+                  icon="✏️"
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="glass"
+                  size="small"
+                  onClick={() => handleDeleteMeal(meal.id)}
+                  icon="🗑️"
+                >
+                  Delete
+                </Button>
+              </div>
             </div>
           </Card>
         ))
       )}
     </div>
   );
+};
+
+// Helper function to convert hex color to rgb for opacity adjustments
+const hexToRgb = (hex) => {
+  // Remove # if present
+  hex = hex.replace('#', '');
+  
+  // Parse the hex values
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  
+  return `${r}, ${g}, ${b}`;
 };
 
 export default MealLogger;
