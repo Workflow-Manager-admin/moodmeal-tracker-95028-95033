@@ -6,10 +6,11 @@ import colors from '../../theme/colors';
  * with futuristic UI elements and effects
  * 
  * @param {Object} props - Component props
- * @param {string} [props.variant='primary'] - Button variant (primary, secondary, outline, glass)
+ * @param {string} [props.variant='primary'] - Button variant (primary, secondary, outline, glass, accent)
  * @param {string} [props.size='medium'] - Button size (small, medium, large)
  * @param {boolean} [props.fullWidth=false] - Whether button should take full width
  * @param {string} [props.animation] - Optional animation effect (pulse, glow)
+ * @param {string} [props.icon] - Optional icon to display before the button text
  * @param {function} props.onClick - Click handler function
  */
 const Button = ({ 
@@ -19,20 +20,22 @@ const Button = ({
   fullWidth = false,
   disabled = false,
   animation,
+  icon,
   onClick,
   ...props 
 }) => {
   // Style object based on variants
   const getStyles = () => {
     const baseStyle = {
-      borderRadius: '8px', // More rounded corners for modern look
+      borderRadius: '12px', // More rounded corners for futuristic look
       fontWeight: '500',
       cursor: disabled ? 'not-allowed' : 'pointer',
-      transition: 'all var(--transition-medium) ease',
+      transition: 'all 0.3s ease',
       border: 'none',
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
+      gap: '8px',
       opacity: disabled ? 0.6 : 1,
       width: fullWidth ? '100%' : 'auto',
       position: 'relative',
@@ -63,8 +66,8 @@ const Button = ({
         color: colors.textPrimary,
         boxShadow: colors.shadowLight,
         ':hover': {
-          boxShadow: colors.shadowMedium,
-          transform: 'translateY(-1px)',
+          boxShadow: '0 8px 20px rgba(232, 122, 65, 0.3)',
+          transform: 'translateY(-2px)',
         },
         ':active': {
           transform: 'translateY(1px)',
@@ -78,10 +81,11 @@ const Button = ({
         ':hover': {
           boxShadow: `0 0 0 2px rgba(232, 122, 65, 0.2), ${colors.shadowLight}`,
           background: 'rgba(232, 122, 65, 0.05)',
+          transform: 'translateY(-2px)',
         }
       },
       outline: {
-        background: 'transparent',
+        background: 'rgba(255, 255, 255, 0.03)',
         color: colors.textPrimary,
         border: `1px solid ${colors.border}`,
         backdropFilter: 'blur(4px)',
@@ -89,6 +93,8 @@ const Button = ({
         ':hover': {
           borderColor: colors.borderGlow,
           boxShadow: colors.shadowLight,
+          transform: 'translateY(-2px)',
+          background: 'rgba(255, 255, 255, 0.05)',
         }
       },
       glass: {
@@ -99,8 +105,9 @@ const Button = ({
         color: colors.textPrimary,
         boxShadow: colors.shadowLight,
         ':hover': {
-          boxShadow: colors.shadowMedium,
+          boxShadow: '0 8px 20px rgba(0, 0, 0, 0.2)',
           background: 'rgba(255, 255, 255, 0.08)',
+          transform: 'translateY(-2px)',
         }
       },
       accent: {
@@ -108,8 +115,8 @@ const Button = ({
         color: colors.textPrimary,
         boxShadow: `0 4px 12px rgba(0, 210, 255, 0.3)`,
         ':hover': {
-          boxShadow: `0 6px 16px rgba(0, 210, 255, 0.4)`,
-          transform: 'translateY(-1px)',
+          boxShadow: `0 8px 20px rgba(0, 210, 255, 0.4)`,
+          transform: 'translateY(-2px)',
         }
       }
     };
@@ -172,6 +179,7 @@ const Button = ({
       className={animation ? animation : ''}
       {...props}
     >
+      {icon && <span style={{ fontSize: '1.1em' }}>{icon}</span>}
       {children}
     </button>
   );
