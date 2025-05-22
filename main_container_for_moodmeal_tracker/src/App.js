@@ -1,36 +1,33 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { MoodMealProvider } from './context/MoodMealContext';
+import Navigation from './components/Navigation';
+import Dashboard from './components/Dashboard';
+import MealLogger from './components/MealLogger';
+import MoodLogger from './components/MoodLogger';
+import Insights from './components/Insights';
 import './App.css';
 
+/**
+ * Main App component for MoodMeal Tracker
+ */
 function App() {
   return (
-    <div className="app">
-      <nav className="navbar">
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-            <div className="logo">
-              <span className="logo-symbol">*</span> KAVIA AI
-            </div>
-            <button className="btn">Template Button</button>
-          </div>
+    <MoodMealProvider>
+      <Router>
+        <div className="app">
+          <Navigation />
+          
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/meals" element={<MealLogger />} />
+            <Route path="/moods" element={<MoodLogger />} />
+            <Route path="/insights" element={<Insights />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </div>
-      </nav>
-
-      <main>
-        <div className="container">
-          <div className="hero">
-            <div className="subtitle">AI Workflow Manager Template</div>
-            
-            <h1 className="title">main_container_for_moodmeal_tracker</h1>
-            
-            <div className="description">
-              Start building your application.
-            </div>
-            
-            <button className="btn btn-large">Button</button>
-          </div>
-        </div>
-      </main>
-    </div>
+      </Router>
+    </MoodMealProvider>
   );
 }
 
