@@ -4,6 +4,20 @@
   --text-color: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
   --border-color: rgba(255, 255, 255, 0.1);
+  
+  /* MoodMeal Tracker specific colors */
+  --mood-excellent: #4CAF50;
+  --mood-good: #8BC34A;
+  --mood-neutral: #FFC107;
+  --mood-bad: #FF9800;
+  --mood-terrible: #F44336;
+  
+  --meal-breakfast: #42A5F5;
+  --meal-lunch: #7E57C2;
+  --meal-dinner: #EC407A;
+  --meal-snack: #26A69A;
+  
+  --card-bg: #2A2A2A;
 }
 
 body {
@@ -19,90 +33,116 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-bottom: 40px;
 }
 
-.navbar {
-  background-color: var(--kavia-dark);
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-color);
-  position: fixed;
-  top: 0;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 100;
+/* Override Chart.js tooltip styles */
+.chartjs-tooltip {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
 }
 
-.logo {
-  font-size: 1.25rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logo-symbol {
-  color: var(--kavia-orange);
-}
-
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 24px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.hero {
-  padding-top: 120px;
-  padding-bottom: 64px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-
-.subtitle {
-  color: var(--kavia-orange);
-  font-weight: 500;
-  font-size: 1.1rem;
-}
-
-.title {
-  font-size: 3.5rem;
-  font-weight: 600;
-  line-height: 1.2;
-  margin: 0;
-}
-
-.description {
-  font-size: 1.1rem;
-  line-height: 1.5;
-  color: var(--text-secondary);
-  max-width: 600px;
-  margin-bottom: 16px;
-}
-
-.btn {
-  background-color: var(--kavia-orange);
-  color: white;
-  border: none;
+/* Form styles */
+input, textarea, select {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
   border-radius: 4px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: 500;
+  padding: 10px 12px;
+  font-size: 16px;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--kavia-orange);
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Button styles */
+button {
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  font-family: inherit;
+  transition: all 0.2s ease;
 }
 
-.btn:hover {
-  background-color: #FF8B4D;
+button:focus {
+  outline: none;
 }
 
-.btn-large {
-  padding: 12px 24px;
-  font-size: 1.1rem;
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Custom scrollbar for Webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--kavia-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(232, 122, 65, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--kavia-orange);
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 768px) {
+  .app {
+    padding-bottom: 80px; /* More space for mobile navigation */
+  }
+  
+  h1 {
+    font-size: 20px !important;
+  }
+  
+  h2 {
+    font-size: 18px !important;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Transitions */
+.app-enter {
+  opacity: 0;
+}
+
+.app-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
+.app-exit {
+  opacity: 1;
+}
+
+.app-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
 }
