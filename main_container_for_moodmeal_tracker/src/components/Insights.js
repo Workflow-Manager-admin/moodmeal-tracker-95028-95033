@@ -153,7 +153,7 @@ const Insights = () => {
     prepareMoodTrendData();
     prepareMealTypeData();
     prepareSatisfactionData();
-  }, [filteredMeals, filteredMoods, timePeriod]);
+  }, [filteredMeals, filteredMoods, timePeriod, moods.length]);
   
   const containerStyle = {
     maxWidth: '900px',

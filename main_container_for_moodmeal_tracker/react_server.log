@@ -51,3 +51,6 @@ src/components/Insights.js
   Line 156:6:  React Hook useEffect has a missing dependency: 'moods.length'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
 
 webpack compiled with 1 warning
+Compiling...
+Compiled successfully!
+webpack compiled successfully
